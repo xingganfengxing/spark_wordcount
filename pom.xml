@@ -1,0 +1,162 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>sparkcount</groupId>
+  <artifactId>sparkcount</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>SparkApps</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+	    <groupId>org.apache.spark</groupId>
+	    <artifactId>spark-core_2.11</artifactId>
+	    <version>2.2.0</version>
+	    <scope>provided</scope>
+	</dependency>
+
+    <dependency>
+	    <groupId>org.apache.spark</groupId>
+	    <artifactId>spark-streaming_2.11</artifactId>
+	    <version>2.2.0</version>
+	    <scope>provided</scope>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.apache.spark</groupId>
+	    <artifactId>spark-mllib_2.11</artifactId>
+	    <version>2.2.0</version>
+	    <scope>provided</scope>
+	</dependency>
+		
+    
+    
+    <dependency>
+	    <groupId>org.apache.spark</groupId>
+	    <artifactId>spark-hive_2.11</artifactId>
+	    <version>2.2.0</version>
+	    <scope>provided</scope>
+	</dependency>
+	
+	
+    <dependency>
+	    <groupId>org.apache.hadoop</groupId>
+	    <artifactId>hadoop-client</artifactId>
+	    <version>2.6.0</version>
+	</dependency>
+
+    <dependency>
+	    <groupId>org.apache.spark</groupId>
+	    <artifactId>spark-streaming-kafka_2.10</artifactId>
+	    <version>1.6.0</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.apache.spark</groupId>
+	    <artifactId>spark-graphx_2.11</artifactId>
+	    <version>2.2.0</version>
+	    <scope>provided</scope>
+	</dependency>
+	
+	
+	
+	
+  </dependencies>
+  
+  <build>
+    
+    	<resources>
+	      <resource>
+	        <directory>multilang/resources</directory>
+	        <includes>
+	          <include>*.php</include>
+	        </includes>
+	        <targetPath>resources</targetPath>  
+	      </resource>
+	    </resources>
+    
+        <plugins>
+        	<plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass></mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <verbose>true</verbose>  
+			        <fork>true</fork>
+			        <executable>${JAVA_HOME}/bin/javac</executable> 
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.theoryinpractise</groupId>
+                <artifactId>clojure-maven-plugin</artifactId>
+                <version>1.7.1</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <sourceDirectories>
+                        <sourceDirectory>src/clj</sourceDirectory>
+                    </sourceDirectories>
+                </configuration>
+            </plugin>
+            
+           <plugin>
+	        <groupId>org.codehaus.mojo</groupId>
+	        <artifactId>exec-maven-plugin</artifactId>
+	        <version>1.2.1</version>
+	        <executions>
+	          <execution>
+	            <goals>
+	              <goal>exec</goal>
+	            </goals>
+	          </execution>
+	        </executions>
+	        <configuration>
+	          <executable>java</executable>
+	          <includeProjectDependencies>true</includeProjectDependencies>
+	          <includePluginDependencies>false</includePluginDependencies>
+	          <classpathScope>compile</classpathScope>
+	          <mainClass>sparkcount.app</mainClass>
+	        </configuration>
+      	</plugin>
+            
+            
+        </plugins>
+    </build>
+</project>
